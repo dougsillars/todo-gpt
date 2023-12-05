@@ -12,7 +12,8 @@ const pool = new Pool({
     port: 5432,
     user: process.env.DB_USER,
     password: process.env.DB_PASS,
-    database: process.env.DB
+    database: process.env.DB,
+    ssl: true
 });
 
 app.use(bodyParser.json());
@@ -55,6 +56,7 @@ app.post('/api/todos', async (req, res) => {
 
   try {
     const result = await pool.query('INSERT INTO todo (task) VALUES ($1) RETURNING *', [task]);
+    console.log(result);
     res.json(result.rows[0]);
   } catch (error) {
     console.error('Error executing query', error);
