@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo App</title>
+</head>
+<body>
+  <h1>Todo App</h1>
+  <form id="todoForm">
+    <label for="task">Task:</label>
+    <input type="text" id="task" name="task" required>
+    <button type="submit">Add Todo</button>
+  </form>
+  <ul id="todoList"></ul>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const form = document.getElementById('todoForm');
+      const taskInput = document.getElementById('task');
+      const todoList = document.getElementById('todoList');
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const task = taskInput.value;
+        taskInput.value = '';
+
+        try {
+          const response = await fetch('/api/todos', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ task }),
+          });
+
+          const newTodo = await response.json();
+
+          const listItem = document.createElement('li');
+          listItem.textContent = newTodo.task;
+          todoList.appendChild(listItem);
+        } catch (error) {
+          console.error('Error adding todo', error);
+        }
+      });
+
+      try {
+        const response = await fetch('/api/todos');
+        const todos = await response.json();
+
+        todos.forEach((todo) => {
+          const listItem = document.createElement('li');
+          listItem.textContent = todo.task;
+          todoList.appendChild(listItem);
+        });
+      } catch (error) {
+        console.error('Error fetching todos', error);
+      }
+    });
+  </script>
+</body>
+</html>
