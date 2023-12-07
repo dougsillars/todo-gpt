@@ -10,12 +10,9 @@ const port = 8080;
 const pool = new Pool({
     host: process.env.DB_SERVER,
     port: 5432,
-    user: "postgres",
-    password: "postgres",
-    database: process.env.DB,
-    ssl: {
-      rejectUnauthorized: false
-    } 
+    user: 'postgres',
+    password: 'postgres',
+    database: process.env.DB
 });
 
 app.use(bodyParser.json());
