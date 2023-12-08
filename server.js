@@ -12,7 +12,10 @@ const pool = new Pool({
     port: 5432,
     user: process.env.DB_USER,
     password: process.env.DB_PASS,
-    database: process.env.DB
+    database: process.env.DB,
+    ssl: {
+      rejectUnauthorized: false
+    } 
 });
 
 app.use(bodyParser.json());
