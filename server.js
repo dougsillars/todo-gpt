@@ -8,14 +8,11 @@ const app = express();
 const port = 8080;
 
 const pool = new Pool({
-    host: process.env.DB_SERVER,
+    host: "todo-postgres-ha.dougsillars-462315462-deploy.svc.cluster.local",
     port: 5432,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB,
-    ssl: {
-      rejectUnauthorized: false
-    } 
+    user: "postgres",
+    password: "postgres",
+    database: "postgres"
 });
 
 app.use(bodyParser.json());
